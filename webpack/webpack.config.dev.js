@@ -1,6 +1,6 @@
 const Path = require('path');
 const Webpack = require('webpack');
-const { merge } = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
@@ -21,22 +21,18 @@ module.exports = merge(common, {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        include: Path.resolve(__dirname, '../src'),
-        enforce: 'pre',
-        loader: 'eslint-loader',
-        options: {
-          emitWarning: true
-        }
-      },
-      {
         test: /\.html$/i,
         loader: 'html-loader',
       },
       {
         test: /\.js$/,
         include: Path.resolve(__dirname, '../src'),
-        loader: 'babel-loader'
+        use: [
+          {
+            loader: "babel-loader",
+            options: { presets: ["@babel/preset-env", "@babel/react"] }
+          }
+        ]
       },
       {
         test: /\.s?css$/i,
